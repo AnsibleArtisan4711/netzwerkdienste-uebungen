@@ -1,0 +1,22 @@
+# Offener Resolver und AXFR
+
+Beispielausgabe zu Modul 10 (`10-dns-sicherheit-und-haertung`). Der Inhalt des Blocks ist unverändert.
+
+```text
+# Offener Resolver? Rekursive Anfrage von aussen (DMZ-Quelle) und aus dem Labornetz
+$ dig -b 192.168.60.100 @192.168.60.11 www.example.com A
+;; ->>HEADER<<- opcode: QUERY, status: REFUSED, id: 26055
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+; EDNS: version: 0, flags:; udp: 1232
+$ dig -b 192.168.60.100 @192.168.60.11 branch.example.org SOA +norecurse   (autoritativ, erlaubt)
+linserver.branch.example.org. hostmaster.branch.example.org. 2026111112 900 300 604800 3600
+$ dig -b 192.168.50.100 @192.168.50.11 corp.example.com SOA +short
+winserver.corp.example.com. hostmaster.corp.example.com. 2026111103 900 300 604800 3600
+# Zonentransfer ohne Berechtigung (Zustand VOR der globalen Sperre; Standard ist: alle duerfen)
+$ dig -b 192.168.60.100 @192.168.60.11 branch.example.org AXFR
+; Transfer failed.
+$ dig -b 192.168.50.100 @192.168.50.11 partner.example.net AXFR
+;; XFR size: 5 records (messages 1, bytes 248)
+$ dig @192.168.50.11 corp.example.com AXFR  (lokal)
+;; XFR size: 15 records (messages 1, bytes 514)
+```

@@ -1,0 +1,33 @@
+# Ausfall des Windows-Servers
+
+Beispielausgabe zu Modul 12 (`12-abschlussprojekt-alpentech`). Der Inhalt des Blocks ist unverändert.
+
+```text
+# Ausfallsimulation 1: SRV-WIN-DNS (im Testlabor: Ersatzinstanz auf 192.168.50.10) beenden
+$ rndcb stop      (unter Windows: Stop-Service DNS)
+$ dig +time=2 +tries=1 @192.168.50.10 fs01.hq.alpentech.internal A +short
+;; communications error to 192.168.50.10#53: connection refused
+
+
+$ SRC=192.168.50.100 bash 12.1-abnahme-pruefen.sh 192.168.50.11
+== Server 192.168.50.11
+INFO    Seriennummer hq.alpentech.internal auf 192.168.50.11: 2026111201
+INFO    Seriennummer dev.alpentech.internal auf 192.168.50.11: 2026111201
+
+Bestanden: 38   Fehler: 0
+Ergebnis: alles in Ordnung
+
+$ SRC=192.168.50.100 bash 12.1-abnahme-pruefen.sh 192.168.50.10   (zum Vergleich: der gestoppte Server)
+
+Bestanden: 0   Fehler: 38
+Ergebnis: 38 Pruefung(en) fehlgeschlagen
+
+# Client-Sicht: Der BIND-Server antwortet allein, auch fuer Reverse-Abfragen
+$ dig @192.168.50.11 -x 192.168.50.53 +short
+erp.hq.alpentech.internal.
+$ dig @192.168.50.11 intranet.hq.alpentech.internal A +short
+fs01.hq.alpentech.internal.
+192.168.50.51
+$ dig @192.168.50.11 -x fd00:50::61 +short
+git.dev.alpentech.internal.
+```

@@ -1,0 +1,30 @@
+# Branch-Einträge
+
+Beispielausgabe zu Modul 05 (`05-resource-records-und-reverse-zonen`). Der Inhalt des Blocks ist unverändert.
+
+```text
+# Echte dig-Ausgaben (BIND 9.18.39). Eintraege der Zone branch.example.org von SRV-LIN-BIND
+
+$ dig @192.168.50.11 linserver.branch.example.org A +noall +answer +additional
+linserver.branch.example.org. 3600 IN	A	192.168.50.11
+
+$ dig @192.168.50.11 linserver.branch.example.org AAAA +noall +answer +additional
+linserver.branch.example.org. 3600 IN	AAAA	fd00:50::11
+
+$ dig @192.168.50.11 www.branch.example.org A +noall +answer +additional
+www.branch.example.org.	3600	IN	CNAME	web.branch.example.org.
+web.branch.example.org.	3600	IN	A	192.168.50.40
+
+$ dig @192.168.50.11 branch.example.org MX +noall +answer +additional
+branch.example.org.	3600	IN	MX	10 linserver.branch.example.org.
+linserver.branch.example.org. 3600 IN	A	192.168.50.11
+linserver.branch.example.org. 3600 IN	AAAA	fd00:50::11
+
+$ dig @192.168.50.11 branch.example.org TXT +noall +answer +additional
+branch.example.org.	3600	IN	TXT	"v=spf1 mx -all"
+
+$ dig @192.168.50.11 _ldap._tcp.branch.example.org SRV +noall +answer +additional
+_ldap._tcp.branch.example.org. 3600 IN	SRV	10 100 389 linserver.branch.example.org.
+linserver.branch.example.org. 3600 IN	A	192.168.50.11
+linserver.branch.example.org. 3600 IN	AAAA	fd00:50::11
+```

@@ -1,0 +1,21 @@
+# Prüfung der Konfiguration
+
+Beispielausgabe zu Modul 12 (`12-abschlussprojekt-alpentech`). Der Inhalt des Blocks ist unverändert.
+
+```text
+$ sudo named-checkconf
+(keine Ausgabe = fehlerfrei)
+$ sudo named-checkzone dev.alpentech.internal /etc/bind/db.dev.alpentech.internal
+zone dev.alpentech.internal/IN: dev.alpentech.internal/MX 'mail.hq.alpentech.internal' (out of zone) has no addresses records (A or AAAA)
+zone dev.alpentech.internal/IN: loaded serial 2026111201
+OK
+$ sudo rndc zonestatus hq.alpentech.internal | grep -E "type|serial|next refresh|expires"
+type: secondary
+serial: 2026111201
+next refresh: Wed, 11 Nov 2026 16:44:04 GMT
+expires: Wed, 18 Nov 2026 16:29:30 GMT
+$ dig +short @192.168.50.11 hq.alpentech.internal SOA
+ns1.hq.alpentech.internal. hostmaster.hq.alpentech.internal. 2026111201 900 300 604800 3600
+$ dig +short @192.168.50.11 dev.alpentech.internal SOA
+ns1.dev.alpentech.internal. hostmaster.dev.alpentech.internal. 2026111201 900 300 604800 3600
+```

@@ -1,0 +1,29 @@
+# nslookup interaktiv
+
+Beispielausgabe zu Modul 11 (`11-fehlersuche-und-monitoring`). Der Inhalt des Blocks ist unverändert.
+
+```text
+# Hinweis: Mitschnitt von nslookup aus BIND (Linux). Die Windows-Version formatiert die Ausgabe anders (sinngemaess).
+$ nslookup
+Default server: 192.168.50.10
+Address: 192.168.50.10#53
+Server:		192.168.50.10
+Address:	192.168.50.10#53
+
+branch.example.org	mail exchanger = 10 linserver.branch.example.org.
+Server:		192.168.50.10
+Address:	192.168.50.10#53
+
+------------
+    QUESTIONS:
+	files.corp.example.com, type = A, class = IN
+    ANSWERS:
+    ->  files.corp.example.com
+	internet address = 192.168.50.20
+	ttl = 3600
+    AUTHORITY RECORDS:
+    ADDITIONAL RECORDS:
+------------
+Name:	files.corp.example.com
+Address: 192.168.50.20
+```

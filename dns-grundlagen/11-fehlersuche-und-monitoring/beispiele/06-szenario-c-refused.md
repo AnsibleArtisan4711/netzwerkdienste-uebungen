@@ -1,0 +1,23 @@
+# Szenario C: REFUSED
+
+Beispielausgabe zu Modul 11 (`11-fehlersuche-und-monitoring`). Der Inhalt des Blocks ist unverändert.
+
+```text
+# Szenario C: 192.168.50.0/24 aus der ACL lab-nets entfernt
+$ dig -b 192.168.50.100 @192.168.50.11 www.branch.example.org A
+;; ->>HEADER<<- opcode: QUERY, status: REFUSED, id: 35606
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+; EDNS: version: 0, flags:; udp: 1232
+
+$ sudo cat /var/log/named/queries.log (letzte Zeile)
+11-Nov-2026 17:18:17.454 queries: client 192.168.50.100#46813 (www.branch.example.org): query: www.branch.example.org IN A +E(0)K (192.168.50.11)
+$ sudo cat /var/log/named/security.log
+11-Nov-2026 17:18:17.410 security: client 192.168.50.100#60312 (www.branch.example.org): query 'www.branch.example.org/A/IN' denied
+11-Nov-2026 17:18:17.454 security: client 192.168.50.100#46813 (www.branch.example.org): query 'www.branch.example.org/A/IN' denied
+
+# Wiederherstellung und Kontrollabfrage
+$ sudo cp -a /etc/bind/named.conf.options.vor-szenario-c /etc/bind/named.conf.options && sudo rndc reload
+$ dig -b 192.168.50.100 @192.168.50.11 www.branch.example.org A +short
+web.branch.example.org.
+192.168.50.40
+```

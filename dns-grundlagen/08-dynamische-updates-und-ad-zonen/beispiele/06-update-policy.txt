@@ -1,8 +1,0 @@
-# update-policy: der Schluessel darf nur dyn2.branch.example.org (Typen A und TXT) aendern
-$ nsupdate -k ...   # update add dyn2.branch.example.org 300 A 192.168.50.79
-(Rueckgabewert: 0)
-$ nsupdate -k ...   # update add dynhost2.branch.example.org 300 A 192.168.50.80
-update failed: REFUSED
-(Rueckgabewert: 2)
-$ dig +short @192.168.50.11 dyn2.branch.example.org A; dig +short @192.168.50.11 dynhost2.branch.example.org A
-192.168.50.79

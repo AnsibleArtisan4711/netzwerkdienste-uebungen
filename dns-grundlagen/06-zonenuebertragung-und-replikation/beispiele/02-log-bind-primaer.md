@@ -1,0 +1,19 @@
+# Log des BIND-Primärservers
+
+Beispielausgabe zu Modul 06 (`06-zonenuebertragung-und-replikation`). Der Inhalt des Blocks ist unverändert.
+
+```text
+# Echte Logzeilen von SRV-LIN-BIND als Primaerserver fuer branch.example.org (BIND 9.18.39). Gegenstelle war ein BIND als Stellvertreter fuer SRV-WIN-DNS.
+
+## 1. Erste Uebertragung an 192.168.50.10 (AXFR)
+11-Nov-2026 16:32:51.693 192.168.50.10#38133 (branch.example.org): transfer of 'branch.example.org/IN': AXFR started (serial 2026111102)
+11-Nov-2026 16:32:51.693 192.168.50.10#38133 (branch.example.org): transfer of 'branch.example.org/IN': AXFR ended: 1 messages, 12 records, 413 bytes, 0.001 secs (413000 bytes/sec) (serial 2026111102)
+
+## 2. Seriennummer nicht erhoeht: NOTIFY kommt an, Gegenstelle antwortet 'zone is up to date'
+11-Nov-2026 16:33:28.073 zone branch.example.org/IN: notify from 192.168.50.11#36569: zone is up to date
+
+## 3. Seriennummer erhoeht, Zonendatei von Hand bearbeitet und rndc reload: kein Journal, daher AXFR statt IXFR
+11-Nov-2026 16:33:38.869 192.168.50.10#32879 (branch.example.org): transfer of 'branch.example.org/IN': IXFR version not in journal, falling back to AXFR
+11-Nov-2026 16:33:38.869 192.168.50.10#32879 (branch.example.org): transfer of 'branch.example.org/IN': AXFR-style IXFR started (serial 2026111103)
+11-Nov-2026 16:33:38.869 192.168.50.10#32879 (branch.example.org): transfer of 'branch.example.org/IN': AXFR-style IXFR ended: 1 messages, 13 records, 433 bytes, 0.001 secs (433000 bytes/sec) (serial 2026111103)
+```

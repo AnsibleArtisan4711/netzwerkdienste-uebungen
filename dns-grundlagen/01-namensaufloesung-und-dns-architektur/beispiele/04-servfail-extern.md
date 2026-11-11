@@ -1,0 +1,28 @@
+# SERVFAIL extern
+
+Beispielausgabe zu Modul 01 (`01-namensaufloesung-und-dns-architektur`). Der Inhalt des Blocks ist unverändert.
+
+```text
+; Mitschnitt aus einer Testumgebung (Ubuntu 24.04, BIND 9.18.39), nicht aus dem Labor der Uebung.
+; Befehl: dig @192.168.50.11 example.net A
+; Hinweis: Die Testumgebung hatte keinerlei Netzverbindung; im Labor ohne Gateway ist das Verhalten aehnlich, mit ins Leere zeigendem Gateway kann es laenger dauern.
+
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @192.168.50.11 example.net A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 5587
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: df2bcc1f68c3dc79010000006af4858dab91105b8fd9093d (good)
+;; QUESTION SECTION:
+;example.net.			IN	A
+
+;; Query time: 8 msec
+;; SERVER: 192.168.50.11#53(192.168.50.11) (UDP)
+;; WHEN: Wed Nov 11 16:11:09 CET 2026
+;; MSG SIZE  rcvd: 68
+```

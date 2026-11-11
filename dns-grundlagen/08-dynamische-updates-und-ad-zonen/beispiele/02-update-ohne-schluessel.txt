@@ -1,5 +1,0 @@
-$ nsupdate    # ohne Schluessel
-update failed: REFUSED
-(Rueckgabewert: 2)
-$ dig @192.168.50.11 evil.branch.example.org A +noall +comments | grep -o "status: [A-Z]*"
-status: NXDOMAIN
