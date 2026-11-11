@@ -1,0 +1,25 @@
+; Zonendatei fuer branch.example.org (Uebung 05.1, erweitert gegenueber 04.1)
+$TTL 3600
+@         IN  SOA linserver.branch.example.org. hostmaster.branch.example.org. (
+              2026111101  ; Serial (YYYYMMDDnn)
+              900         ; Refresh (15 Minuten)
+              300         ; Retry (5 Minuten)
+              604800      ; Expire (7 Tage)
+              3600 )      ; Negative Cache TTL (RFC 2308)
+
+; Nameserver und Mail fuer die ganze Zone
+@         IN  NS    linserver.branch.example.org.
+@         IN  MX    10 linserver.branch.example.org.
+@         IN  TXT   "v=spf1 mx -all"
+
+; Adressen (A = IPv4, AAAA = IPv6)
+linserver IN  A     192.168.50.11
+linserver IN  AAAA  fd00:50::11
+web       IN  A     192.168.50.40
+web       IN  AAAA  fd00:50::40
+
+; Alias: www ist ein anderer Name fuer web (Ziel steht relativ zur Zone, ohne Punkt am Ende)
+www       IN  CNAME web
+
+; Dienst: LDAP ueber TCP, Prioritaet 10, Gewichtung 100, Port 389
+_ldap._tcp IN SRV   10 100 389 linserver.branch.example.org.

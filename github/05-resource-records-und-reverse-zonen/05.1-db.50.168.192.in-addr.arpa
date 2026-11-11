@@ -1,0 +1,9 @@
+; Vergleichsdatei: Reverse-Zone 50.168.192.in-addr.arpa (IPv4-Netz 192.168.50.0/24)
+; Der Name links ist nur das letzte Oktett der Adresse.
+$TTL 3600
+@         IN  SOA winserver.corp.example.com. hostmaster.corp.example.com. (
+              2026111101 900 300 604800 3600 )
+@         IN  NS    winserver.corp.example.com.
+
+10        IN  PTR   winserver.corp.example.com.
+11        IN  PTR   linserver.branch.example.org.

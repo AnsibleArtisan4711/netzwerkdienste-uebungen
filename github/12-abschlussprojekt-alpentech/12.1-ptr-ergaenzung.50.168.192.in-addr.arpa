@@ -1,0 +1,9 @@
+; Vergleichsdatei: PTR-Eintraege, die du zur vorhandenen Reverse-Zone 50.168.192.in-addr.arpa (Uebung 05.1) ergaenzt.
+; Die Reverse-Zone gehoert SRV-WIN-DNS (Primaer); SRV-LIN-BIND hat eine sekundaere Kopie. Der Name links ist das letzte Oktett.
+; Die Adressen .10 und .11 behalten ihre PTR-Eintraege aus Uebung 05.1 (ein PTR je Adresse).
+51        IN  PTR   fs01.hq.alpentech.internal.
+52        IN  PTR   mail.hq.alpentech.internal.
+53        IN  PTR   erp.hq.alpentech.internal.
+61        IN  PTR   git.dev.alpentech.internal.
+62        IN  PTR   ci.dev.alpentech.internal.
+63        IN  PTR   build.dev.alpentech.internal.

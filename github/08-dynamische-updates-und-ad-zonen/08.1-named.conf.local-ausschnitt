@@ -1,0 +1,13 @@
+// Uebung 08.1: Ausschnitt fuer /etc/bind/named.conf.local auf SRV-LIN-BIND (dynamische Updates fuer branch.example.org)
+// Den include-Eintrag an den Anfang der Datei setzen, die Zone anpassen (nicht doppelt anlegen).
+// Danach:  sudo named-checkconf && sudo rndc reconfig
+
+include "/etc/bind/ddns.key";          // enthaelt: key "ddns-key" { algorithm hmac-sha256; secret "..."; };
+
+zone "branch.example.org" {
+    type primary;
+    file "/var/lib/bind/db.branch.example.org";   // schreibbar fuer named (Journal .jnl liegt daneben)
+    allow-update { key "ddns-key"; };             // Variante: update-policy { grant ddns-key name dyn2.branch.example.org. A TXT; };
+    allow-transfer { 192.168.50.10; };
+    also-notify { 192.168.50.10; };
+};

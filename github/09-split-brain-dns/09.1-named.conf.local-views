@@ -1,0 +1,72 @@
+// Uebung 09.1, Teil 2: /etc/bind/named.conf.local mit Views (Split-Horizon) auf SRV-LIN-BIND
+// Sobald ein view existiert, muessen ALLE Zonen in Views stehen. Deshalb wird named.conf.default-zones leer
+// (Kommentar) gemacht und deren Zonen stehen hier im View "internal".
+// Vorher Sicherungen anlegen (siehe Aufgabentext).
+
+include "/etc/bind/ddns.key";                    // Schluessel gilt global, nicht in einem View
+
+view "internal" {
+    match-clients { 192.168.50.0/24; 127.0.0.0/8; fd00:50::/64; ::1/128; };
+    recursion yes;
+
+    // ---- Standardzonen (vorher in named.conf.default-zones) ----
+    zone "." {
+        type hint;
+        file "/usr/share/dns/root.hints";
+    };
+    zone "localhost" {
+        type master;
+        file "/etc/bind/db.local";
+    };
+    zone "127.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.127";
+    };
+    zone "0.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.0";
+    };
+    zone "255.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.255";
+    };
+
+    // ---- eigene Zonen (Module 4 bis 8) ----
+    zone "branch.example.org" {
+        type primary;
+        file "/var/lib/bind/db.branch.example.org";
+        allow-update { key "ddns-key"; };
+        allow-transfer { 192.168.50.10; };
+        also-notify { 192.168.50.10; };
+    };
+    zone "corp.example.com" {
+        type secondary;
+        masters { 192.168.50.10; };
+        file "/var/cache/bind/db.corp.example.com";
+    };
+    zone "50.168.192.in-addr.arpa" {
+        type secondary;
+        masters { 192.168.50.10; };
+        file "/var/cache/bind/db.50.168.192.in-addr.arpa";
+    };
+    zone "partner.example.net" {
+        type primary;
+        file "/etc/bind/db.partner.example.net";
+    };
+    zone "lab.internal" {
+        type forward;
+        forward only;
+        forwarders { 192.168.50.10; };
+    };
+};
+
+view "dmz" {
+    match-clients { 192.168.60.0/24; };
+    allow-recursion { none; };           // das DMZ-Netz bekommt keine Rekursion
+
+    // Im DMZ-View nur die Zone, die sich unterscheiden soll. Eigene Datei, nicht dynamisch.
+    zone "branch.example.org" {
+        type primary;
+        file "/etc/bind/db.branch.example.org.dmz";
+    };
+};

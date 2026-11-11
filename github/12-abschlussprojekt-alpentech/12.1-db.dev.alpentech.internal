@@ -1,0 +1,26 @@
+; Uebung 12.1: /etc/bind/db.dev.alpentech.internal auf SRV-LIN-BIND (Primaer fuer dev.alpentech.internal)
+; Nach jeder Aenderung die Seriennummer erhoehen, dann: sudo named-checkzone dev.alpentech.internal /etc/bind/db.dev.alpentech.internal && sudo rndc reload dev.alpentech.internal
+$TTL 3600
+@         IN  SOA   ns1.dev.alpentech.internal. hostmaster.dev.alpentech.internal. (
+              2026111201  ; Seriennummer (JJJJMMTTNN)
+              900         ; Refresh
+              300         ; Retry
+              604800      ; Expire
+              3600 )      ; Negative-Caching-TTL
+@         IN  NS    ns1.dev.alpentech.internal.
+@         IN  NS    ns1.hq.alpentech.internal.
+@         IN  MX    10 mail.hq.alpentech.internal.
+@         IN  TXT   "v=spf1 -all"
+
+ns1       IN  A     192.168.50.11
+ns1       IN  AAAA  fd00:50::11
+git       IN  A     192.168.50.61
+git       IN  AAAA  fd00:50::61
+ci        IN  A     192.168.50.62
+ci        IN  AAAA  fd00:50::62
+build     IN  A     192.168.50.63
+build     IN  AAAA  fd00:50::63
+
+wiki      IN  CNAME git.dev.alpentech.internal.
+
+_git._tcp IN  SRV   10 100 22 git.dev.alpentech.internal.

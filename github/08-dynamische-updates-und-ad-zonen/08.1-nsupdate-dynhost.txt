@@ -1,0 +1,6 @@
+; Uebung 08.1: Befehle fuer nsupdate (ein Kommando pro Zeile, Leerzeile oder "send" loest das Senden aus).
+; Aufruf:  nsupdate -k /etc/bind/ddns.key 08.1-nsupdate-dynhost.txt
+server 192.168.50.11
+zone branch.example.org
+update add dynhost.branch.example.org 300 A 192.168.50.77
+send

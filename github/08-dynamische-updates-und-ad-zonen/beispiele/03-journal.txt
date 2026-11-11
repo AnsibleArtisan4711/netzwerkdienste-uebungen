@@ -1,0 +1,6 @@
+$ grep -c dynhost /var/lib/bind/db.branch.example.org   # Eintrag steht noch nicht in der Zonendatei
+0
+$ sudo named-journalprint /var/lib/bind/db.branch.example.org.jnl
+del branch.example.org.	3600	IN	SOA	linserver.branch.example.org. hostmaster.branch.example.org. 2026111104 900 300 604800 3600
+add branch.example.org.	3600	IN	SOA	linserver.branch.example.org. hostmaster.branch.example.org. 2026111105 900 300 604800 3600
+add dynhost.branch.example.org. 300	IN	A	192.168.50.77

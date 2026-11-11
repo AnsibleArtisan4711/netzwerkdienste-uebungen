@@ -1,0 +1,48 @@
+// Uebung 10.1: /etc/bind/named.conf.options auf SRV-LIN-BIND (Stand nach Modul 9, plus Haertung)
+// Vor dem Uebernehmen sichern und pruefen:
+//   sudo cp -a /etc/bind/named.conf.options /etc/bind/named.conf.options.m09
+//   sudo named-checkconf /etc/bind/named.conf
+// Hinweis: "rndc reload" laedt Zonen und Konfiguration neu. "rndc reconfig" liest nur die Konfiguration und neue Zonen.
+
+acl "lab-nets" {
+    127.0.0.0/8;
+    192.168.50.0/24;
+    ::1/128;
+    fd00:50::/64;
+};
+
+acl "dmz-net" {
+    192.168.60.0/24;
+};
+
+options {
+    directory "/var/cache/bind";
+
+    listen-on    { 127.0.0.1; 192.168.50.11; 192.168.60.11; };
+    listen-on-v6 { ::1; fd00:50::11; };
+
+    // --- Zugriff: Autoritaet fuer Labor und DMZ, Rekursion nur fuers Labor ---
+    allow-query       { lab-nets; dmz-net; };
+    allow-recursion   { lab-nets; };
+    allow-query-cache { lab-nets; };
+
+    // --- Zonentransfer: Standard ist "alle erlaubt"; hier global gesperrt,
+    //     freigegeben wird je Zone (z. B. allow-transfer { 192.168.50.10; }; in branch.example.org) ---
+    allow-transfer { none; };
+
+    // --- Versions- und Servernamen verbergen ---
+    version "unavailable";
+    hostname none;
+    server-id none;
+
+    // --- Response Rate Limiting (gilt fuer Antworten aus eigenen Zonen) ---
+    rate-limit {
+        responses-per-second 10;
+        window 5;
+        // Zum gefahrlosen Einstieg zuerst nur protokollieren:
+        // log-only yes;
+    };
+
+    dnssec-validation auto;
+    validate-except { "lab.internal"; };
+};

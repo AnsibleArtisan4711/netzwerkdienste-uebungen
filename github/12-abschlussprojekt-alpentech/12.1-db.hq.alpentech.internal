@@ -1,0 +1,26 @@
+; Vergleichsdatei: So sieht die Windows-Zone hq.alpentech.internal als BIND-Zonendatei aus.
+; Auf SRV-WIN-DNS legst du sie mit 12.1-windows-alpentech-einrichten.ps1 an (PowerShell oder GUI).
+$TTL 3600
+@         IN  SOA   ns1.hq.alpentech.internal. hostmaster.hq.alpentech.internal. (
+              2026111201  ; Seriennummer (JJJJMMTTNN)
+              900         ; Refresh
+              300         ; Retry
+              604800      ; Expire
+              3600 )      ; Negative-Caching-TTL
+@         IN  NS    ns1.hq.alpentech.internal.
+@         IN  NS    ns1.dev.alpentech.internal.
+@         IN  MX    10 mail.hq.alpentech.internal.
+@         IN  TXT   "v=spf1 mx -all"
+
+ns1       IN  A     192.168.50.10
+ns1       IN  AAAA  fd00:50::10
+fs01      IN  A     192.168.50.51
+fs01      IN  AAAA  fd00:50::51
+mail      IN  A     192.168.50.52
+mail      IN  AAAA  fd00:50::52
+erp       IN  A     192.168.50.53
+erp       IN  AAAA  fd00:50::53
+
+intranet  IN  CNAME fs01.hq.alpentech.internal.
+
+_ldap._tcp IN SRV   0 100 389 ns1.hq.alpentech.internal.

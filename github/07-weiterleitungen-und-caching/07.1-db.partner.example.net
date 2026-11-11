@@ -1,0 +1,14 @@
+; Zonendatei fuer partner.example.net (Uebung 07.1) - simulierte Partnerfirma auf SRV-LIN-BIND
+$TTL 3600
+@         IN  SOA linserver.branch.example.org. hostmaster.branch.example.org. (
+              2026111201  ; Serial (YYYYMMDDnn)
+              900         ; Refresh
+              300         ; Retry
+              604800      ; Expire
+              300 )       ; Negative Cache TTL (bewusst klein: 5 Minuten, siehe Teil 5)
+
+@         IN  NS    linserver.branch.example.org.
+portal    IN  A     192.168.50.88
+
+; Ergaenzung zum Lehrplan fuer Teil 4 (Migration): bewusst lange TTL von 24 Stunden
+migrate   86400 IN A 192.168.50.60

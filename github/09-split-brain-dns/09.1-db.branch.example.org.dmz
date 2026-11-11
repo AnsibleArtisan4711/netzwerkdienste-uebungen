@@ -1,0 +1,13 @@
+; Zonendatei fuer branch.example.org im View "dmz" (Uebung 09.1): nur das, was das Gast-/DMZ-Netz sehen soll
+$TTL 3600
+@         IN  SOA linserver.branch.example.org. hostmaster.branch.example.org. (
+              2026111201  ; Serial (YYYYMMDDnn)
+              900         ; Refresh
+              300         ; Retry
+              604800      ; Expire
+              3600 )      ; Negative Cache TTL
+
+@         IN  NS    linserver.branch.example.org.
+linserver IN  A     192.168.60.11
+web       IN  A     192.168.60.40
+www       IN  CNAME web

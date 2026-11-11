@@ -1,0 +1,23 @@
+// Uebung 06.1: /etc/bind/named.conf.local auf SRV-LIN-BIND (Endzustand nach Teil 3, ohne TSIG-Testzone)
+// Vor dem Uebernehmen pruefen: named-checkconf /etc/bind/named.conf
+
+// Primaer: branch.example.org. Transfer nur an SRV-WIN-DNS, Benachrichtigung ebenfalls nur dorthin.
+zone "branch.example.org" {
+    type primary;
+    file "/etc/bind/db.branch.example.org";
+    allow-transfer { 192.168.50.10; };
+    also-notify    { 192.168.50.10; };
+};
+
+// Sekundaer: Kopien der Windows-Zonen. Die Dateien liegen in /var/cache/bind (dort darf named schreiben).
+zone "corp.example.com" {
+    type secondary;
+    primaries { 192.168.50.10; };
+    file "/var/cache/bind/db.corp.example.com";
+};
+
+zone "50.168.192.in-addr.arpa" {
+    type secondary;
+    primaries { 192.168.50.10; };
+    file "/var/cache/bind/db.50.168.192.in-addr.arpa";
+};

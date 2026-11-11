@@ -1,0 +1,11 @@
+; Uebung 05.1, Teil 5: Beispiel fuer $ORIGIN und leere Namensfelder. Ausprobieren mit:
+;   named-checkzone -D branch.example.org 05.1-origin-beispiel.txt
+$TTL 3600
+@         IN  SOA linserver.branch.example.org. hostmaster.branch.example.org. ( 2026111101 900 300 604800 3600 )
+          IN  NS  linserver
+linserver IN  A   192.168.50.11
+$ORIGIN lab.branch.example.org.
+pc01      IN  A   192.168.50.101
+          300 IN TXT "zweiter Eintrag, gleicher Name"
+$ORIGIN branch.example.org.
+pc02.lab  IN  A   192.168.50.102

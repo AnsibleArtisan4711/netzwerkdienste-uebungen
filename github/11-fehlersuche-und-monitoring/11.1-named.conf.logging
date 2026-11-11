@@ -1,0 +1,45 @@
+// Uebung 11.1: Logging fuer SRV-LIN-BIND. Datei: /etc/bind/named.conf.logging
+// Einbinden in /etc/bind/named.conf (nach den anderen include-Zeilen):
+//   include "/etc/bind/named.conf.logging";
+// Vorbereitung: sudo mkdir -p /var/log/named && sudo chown bind:bind /var/log/named
+// (Unter Ubuntu darf AppArmor das Schreiben nach /var/log/named/ verbieten; dann in /etc/apparmor.d/local/usr.sbin.named
+//  eine Zeile "/var/log/named/** rw," ergaenzen und AppArmor neu laden. Im Testlabor nicht geprueft.)
+// Pruefen: sudo named-checkconf   -   Laden: sudo rndc reconfig
+
+logging {
+    // Datei-Kanal mit Zeitstempel und Rotation (3 Dateien zu je 5 MB)
+    channel q_datei {
+        file "/var/log/named/queries.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-category yes;
+    };
+    channel x_datei {
+        file "/var/log/named/transfers.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-category yes;
+    };
+    channel s_datei {
+        file "/var/log/named/security.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-category yes;
+    };
+
+    // Allgemeines Protokoll zusaetzlich zu syslog bzw. journald (Meldungen von named selbst)
+    channel allg_datei {
+        file "/var/log/named/named.log" versions 3 size 5m;
+        severity info;
+        print-time yes;
+        print-category yes;
+    };
+
+    // Query-Log: die Kategorie ist hier nur zugeordnet; eingeschaltet wird zur Laufzeit mit "rndc querylog on"
+    category default      { default_syslog; allg_datei; };
+    category queries      { q_datei; };
+    category xfer-in      { x_datei; };
+    category xfer-out     { x_datei; };
+    category security     { s_datei; };
+    category rate-limit   { s_datei; };
+};

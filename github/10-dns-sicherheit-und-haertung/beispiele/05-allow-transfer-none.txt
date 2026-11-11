@@ -1,0 +1,10 @@
+# Zonentransfer mit "allow-transfer { none; };" global in options; Zone branch.example.org hat eigenes allow-transfer { 192.168.50.10; }
+# vorher (ohne globale Zeile): partner.example.net AXFR aus 192.168.50.100 lieferte "XFR size: 5 records" (Standard ist: alle duerfen)
+$ dig -b 192.168.50.100 @192.168.50.11 partner.example.net AXFR
+; Transfer failed.
+$ dig -b 192.168.50.100 @192.168.50.11 branch.example.org AXFR
+; Transfer failed.
+$ dig -b 192.168.50.10 @192.168.50.11 branch.example.org AXFR   (Quelle = Windows-Secondary)
+;; XFR size: 14 records (messages 1, bytes 494)
+
+# Log:

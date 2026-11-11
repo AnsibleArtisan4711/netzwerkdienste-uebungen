@@ -1,0 +1,4 @@
+$ dig @192.168.50.11 version.bind CHAOS TXT +short
+"unavailable"
+$ dig @192.168.50.11 hostname.bind CHAOS TXT +short
+$ dig @192.168.50.11 id.server CHAOS TXT +short

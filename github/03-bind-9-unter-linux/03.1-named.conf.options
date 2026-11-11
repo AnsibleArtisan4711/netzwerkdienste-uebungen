@@ -1,0 +1,22 @@
+// Uebung 03.1: /etc/bind/named.conf.options auf SRV-LIN-BIND
+// Vor dem Uebernehmen pruefen: named-checkconf /etc/bind/named.conf
+
+// Zugriffskontrollliste: Netze des Labors
+acl "lab-nets" {
+    127.0.0.0/8;
+    192.168.50.0/24;
+    ::1/128;
+    fd00:50::/64;
+};
+
+options {
+    directory "/var/cache/bind";
+
+    listen-on    { 127.0.0.1; 192.168.50.11; };
+    listen-on-v6 { ::1; fd00:50::11; };
+
+    allow-query { lab-nets; };
+    allow-recursion { lab-nets; };
+
+    dnssec-validation auto;
+};

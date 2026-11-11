@@ -1,0 +1,6 @@
+; Zonendatei fuer die TSIG-Testzone (Uebung 06.1, Teil 4) - nach der Uebung wieder loeschen
+$TTL 3600
+@         IN  SOA linserver.branch.example.org. hostmaster.branch.example.org. (
+              2026111101 900 300 604800 3600 )
+@         IN  NS    linserver.branch.example.org.
+host1     IN  A     192.168.50.55

@@ -1,0 +1,29 @@
+// Uebung 12.1: Ergaenzung fuer /etc/bind/named.conf.local auf SRV-LIN-BIND (unter die Zonen aus Modul 6 bis 8 anhaengen)
+// Vor dem Uebernehmen pruefen: sudo named-checkconf /etc/bind/named.conf
+// Hinweis: In options steht seit Modul 10 "allow-transfer { none; };". Jede Zone, die uebertragen werden soll, braucht ihre eigene Freigabe.
+
+// Primaer: dev.alpentech.internal. Transfer und NOTIFY nur an SRV-WIN-DNS.
+zone "dev.alpentech.internal" {
+    type primary;
+    file "/etc/bind/db.dev.alpentech.internal";
+    allow-transfer { 192.168.50.10; };
+    also-notify    { 192.168.50.10; };
+    notify explicit;
+};
+
+// Sekundaer: Kopie von hq.alpentech.internal (Primaer auf SRV-WIN-DNS).
+zone "hq.alpentech.internal" {
+    type secondary;
+    primaries { 192.168.50.10; };
+    file "/var/cache/bind/db.hq.alpentech.internal";
+    allow-transfer { none; };
+};
+
+// Sekundaer: Kopie der IPv6-Reverse-Zone, damit PTR-Abfragen auch bei Ausfall von SRV-WIN-DNS beantwortet werden.
+// (Die IPv4-Reverse-Zone 50.168.192.in-addr.arpa ist seit Modul 6 bereits sekundaer eingetragen.)
+zone "0.0.0.0.0.0.0.0.0.5.0.0.0.0.d.f.ip6.arpa" {
+    type secondary;
+    primaries { 192.168.50.10; };
+    file "/var/cache/bind/db.ip6rev";
+    allow-transfer { none; };
+};

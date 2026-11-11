@@ -1,0 +1,2 @@
+// Uebung 09.1: Inhalt von /etc/bind/named.conf.default-zones waehrend der View-Uebung.
+// Die Standardzonen stehen jetzt im View "internal" in named.conf.local. Original aus der Sicherung wiederherstellen.

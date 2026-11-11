@@ -1,0 +1,20 @@
+// Uebung 09.1, Teil 1: Aenderungen in /etc/bind/named.conf.options auf SRV-LIN-BIND (zweites Subnetz 192.168.60.0/24)
+// Bestehende Zeilen ersetzen bzw. ergaenzen. Danach:  sudo named-checkconf && sudo rndc reload
+
+// neue ACL fuer das simulierte DMZ-/Gastnetz
+acl "dmz-net" {
+    192.168.60.0/24;
+};
+
+options {
+    directory "/var/cache/bind";
+
+    listen-on    { 127.0.0.1; 192.168.50.11; 192.168.60.11; };
+    listen-on-v6 { ::1; fd00:50::11; };
+
+    allow-query { lab-nets; dmz-net; };
+    allow-recursion { lab-nets; };    // laut Lehrplan erst in Modul 10 endgueltig eingeschraenkt; hier schon so gesetzt
+
+    dnssec-validation auto;
+    validate-except { "lab.internal"; };
+};

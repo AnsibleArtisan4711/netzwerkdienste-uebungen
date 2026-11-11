@@ -1,0 +1,11 @@
+; Vergleichsdatei: Reverse-Zone fuer fd00:50::/64 (ip6.arpa, 16 Nibbles Netzanteil im Zonennamen)
+; Der Name links sind die restlichen 16 Nibbles der Adresse, umgekehrt geschrieben.
+$TTL 3600
+@         IN  SOA winserver.corp.example.com. hostmaster.corp.example.com. (
+              2026111101 900 300 604800 3600 )
+@         IN  NS    winserver.corp.example.com.
+
+; fd00:50::10
+0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR winserver.corp.example.com.
+; fd00:50::11
+1.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR linserver.branch.example.org.

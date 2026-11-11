@@ -1,0 +1,5 @@
+$ sudo tcpdump -i any port 53 -nn   (hier: -i lo, weil im Testlabor beide Server auf einem Rechner laufen)
+$ (zwei Abfragen von 192.168.50.100: ein vorhandener und ein nicht vorhandener Name)
+IP 192.168.50.100.59187 > 192.168.50.11.53: 27809+ [1au] A? www.branch.example.org. (63)
+IP 192.168.50.11.53 > 192.168.50.100.59187: 27809* 2/0/1 CNAME web.branch.example.org., A 192.168.50.40 (113)
+IP 192.168.50.100.54180 > 192.168.50.11.53: 49955+ [1au] A? nichtda.branch.example.org. (67)

@@ -1,0 +1,14 @@
+; Vergleichsdatei: PTR-Eintraege, die du zur vorhandenen Reverse-Zone 0.0.0.0.0.0.0.0.0.5.0.0.0.0.d.f.ip6.arpa (Uebung 05.1) ergaenzt.
+; Der Name links sind die restlichen 16 Nibbles der Adresse, umgekehrt geschrieben. fd00:50::10 und ::11 behalten ihre PTR aus 05.1.
+; fd00:50::51
+1.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR fs01.hq.alpentech.internal.
+; fd00:50::52
+2.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR mail.hq.alpentech.internal.
+; fd00:50::53
+3.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR erp.hq.alpentech.internal.
+; fd00:50::61
+1.6.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR git.dev.alpentech.internal.
+; fd00:50::62
+2.6.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR ci.dev.alpentech.internal.
+; fd00:50::63
+3.6.0.0.0.0.0.0.0.0.0.0.0.0.0.0   IN PTR build.dev.alpentech.internal.
