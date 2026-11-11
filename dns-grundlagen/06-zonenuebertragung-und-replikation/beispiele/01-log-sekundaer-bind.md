@@ -1,6 +1,35 @@
 # Log des BIND-Sekundärservers
 
-Beispielausgabe zu Modul 06 (`06-zonenuebertragung-und-replikation`). Der Inhalt des Blocks ist unverändert.
+Zu Modul 06: [06-zonenuebertragung-und-replikation](../06.1-zonenuebertragung-und-replikation.md). Dort steht die ausführliche Anleitung.
+
+## Ziel
+
+Im Log eines Sekundärservers den Ablauf einer Zonenübertragung erkennen: AXFR, NOTIFY und IXFR.
+
+## Voraussetzungen
+
+- SRV-LIN-BIND ist Sekundärserver für `corp.example.com`, der Primärserver ist `192.168.50.10`.
+- Im Test war der Primärserver eine BIND-Instanz als Stellvertreter für SRV-WIN-DNS. Bei echtem Windows kann das Log des Primärservers anders aussehen.
+
+## Schritte
+
+1. Lies auf SRV-LIN-BIND die letzten Logzeilen des Dienstes:
+
+   ```bash
+   sudo journalctl -u named -n 40 --no-pager
+   ```
+
+2. Löse eine erste Übertragung aus, zum Beispiel nach dem Anlegen der Sekundärzone:
+
+   ```bash
+   sudo rndc reconfig
+   ```
+
+3. Erhöhe auf dem Primärserver die Seriennummer. Die Zeilen mit `received notify` und die Übertragung erscheinen im Log.
+
+## Ausgabe
+
+Mitschnitt aus dem Testlauf, unverändert. Zeitstempel, IDs, Cookies und Seriennummern sehen bei dir anders aus. Der Windows-Server wurde im Test durch eine zweite BIND-Instanz ersetzt. **Echte Windows-Ausgaben können abweichen.**
 
 ```text
 # Echte Logzeilen von SRV-LIN-BIND (BIND 9.18.39, Sekundaerserver fuer corp.example.com; Primaerserver war ein BIND als Stellvertreter fuer SRV-WIN-DNS).
@@ -20,3 +49,14 @@ Beispielausgabe zu Modul 06 (`06-zonenuebertragung-und-replikation`). Der Inhalt
 11-Nov-2026 16:32:33.785 192.168.50.11#35907 (corp.example.com): transfer of 'corp.example.com/IN': IXFR started (serial 2026111102 -> 2026111103)
 11-Nov-2026 16:32:33.785 192.168.50.11#35907 (corp.example.com): transfer of 'corp.example.com/IN': IXFR ended: 1 messages, 5 records, 227 bytes, 0.001 secs (227000 bytes/sec) (serial 2026111103)
 ```
+
+## So liest du die Ausgabe
+
+- `Transfer started` / `transferred serial …` / `Transfer status: success`: Die erste Übertragung hat die ganze Zone geholt (AXFR, hier 14 Einträge).
+- `received notify for zone`: Der Primärserver meldet eine Änderung. Er schickt sie, wenn die Seriennummer steigt.
+- `IXFR started (serial … -> …)`: Danach wird nur der Unterschied übertragen (inkrementell), nicht die ganze Zone.
+- Der Vorspann der Zeilen (Datum, Dienstname) unterscheidet sich bei `journalctl`.
+
+## Selbst ausprobieren
+
+Zähle in deinem Log die übertragenen Einträge der AXFR und der IXFR und vergleiche.

@@ -1,6 +1,30 @@
 # NODATA
 
-Beispielausgabe zu Modul 01 (`01-namensaufloesung-und-dns-architektur`). Der Inhalt des Blocks ist unverändert.
+Zu Modul 01: [01-namensaufloesung-und-dns-architektur](../01.1-namensaufloesung-und-dns-architektur.md). Dort steht die ausführliche Anleitung.
+
+## Ziel
+
+`NODATA` von `NXDOMAIN` unterscheiden: Der Name existiert, aber nicht für den gefragten Typ.
+
+## Voraussetzungen
+
+- Ein Name, den es in der Zone gibt (hier `linserver`), für den aber **kein** `AAAA`-Eintrag angelegt ist.
+- In der Zone zum Zeitpunkt des Mitschnitts gab es keinen AAAA-Eintrag. In Modul 5 kommt einer hinzu, die Ausgabe sähe dann anders aus.
+
+## Schritte
+
+1. Frage den Typ `AAAA` ab:
+
+   ```bash
+   dig @192.168.50.11 linserver.branch.example.org AAAA +norecurse
+   ```
+
+2. Vergleiche den `status:` mit dem Beispiel `NXDOMAIN`.
+3. Prüfe `ANSWER: 0` und den SOA-Eintrag in der Autorität.
+
+## Ausgabe
+
+Mitschnitt aus dem Testlauf, unverändert. Zeitstempel, IDs, Cookies und Seriennummern sehen bei dir anders aus.
 
 ```text
 ; Mitschnitt aus einer Testumgebung (Ubuntu 24.04, BIND 9.18.39), nicht aus dem Labor der Uebung.
@@ -28,3 +52,13 @@ branch.example.org.	3600	IN	SOA	linserver.branch.example.org. hostmaster.branch.
 ;; WHEN: Wed Nov 11 16:10:36 CET 2026
 ;; MSG SIZE  rcvd: 132
 ```
+
+## So liest du die Ausgabe
+
+- `status: NOERROR` trotz leerer Antwort: Der Name ist vorhanden, nur dieser Typ nicht. Das ist **NODATA**.
+- Bei `NXDOMAIN` gibt es den Namen gar nicht. Wer das verwechselt, sucht beim Fehlerbild an der falschen Stelle.
+- Auch hier steht der SOA-Eintrag in der Autorität (für das negative Caching).
+
+## Selbst ausprobieren
+
+Frage denselben Namen mit Typ `A` ab: Jetzt kommt eine Antwort mit Adresse.

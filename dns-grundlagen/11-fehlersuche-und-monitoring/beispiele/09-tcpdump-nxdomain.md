@@ -1,6 +1,32 @@
 # tcpdump: NXDOMAIN
 
-Beispielausgabe zu Modul 11 (`11-fehlersuche-und-monitoring`). Der Inhalt des Blocks ist unverändert.
+Zu Modul 11: [11-fehlersuche-und-monitoring](../11.1-fehlersuche-und-monitoring.md). Dort steht die ausführliche Anleitung.
+
+## Ziel
+
+Eine verneinte Abfrage im ausführlichen Mitschnitt (`-vv`) lesen.
+
+## Voraussetzungen
+
+- Wie im vorigen Beispiel. Im Testlabor wurde auf der Loopback-Schnittstelle mitgeschnitten (`-i lo`).
+
+## Schritte
+
+1. Starte den Mitschnitt mit mehr Details:
+
+   ```bash
+   sudo tcpdump -i any port 53 -nn -vv
+   ```
+
+2. Frage in einem zweiten Fenster einen nicht vorhandenen Namen:
+
+   ```bash
+   dig @192.168.50.11 nichtda.branch.example.org A
+   ```
+
+## Ausgabe
+
+Mitschnitt aus dem Testlauf, unverändert. Zeitstempel, IDs, Cookies und Seriennummern sehen bei dir anders aus.
 
 ```text
 $ sudo tcpdump -i any port 53 -nn -vv   (hier: -i lo)
@@ -14,3 +40,14 @@ IP (tos 0x0, ttl 64, id 9234, offset 0, flags [none], proto UDP (17), length 168
 0 packets dropped by kernel
 # Hinweis: "bad udp cksum" ist ein Artefakt des Mitschnitts auf der Loopback-Schnittstelle (Pruefsummen-Offload), kein Fehler der Antwort.
 ```
+
+## So liest du die Ausgabe
+
+- `NXDomain*`: Die Antwort verneint den Namen, `*` heißt autoritativ.
+- `0/1/1` im Antwortpaket: keine Antwortdaten, 1 Autorität (der SOA), 1 Zusatz (EDNS).
+- `bad udp cksum` ist ein **Artefakt** des Mitschnitts auf der Loopback-Schnittstelle (Prüfsummen-Offload) und kein Fehler der Antwort.
+- `2 packets captured` zählt die mitgeschnittenen Pakete: hier Frage und Antwort.
+
+## Selbst ausprobieren
+
+Vergleiche die Ausgabe mit `-vv` und ohne `-vv`: Was kommt hinzu?
