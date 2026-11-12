@@ -1,0 +1,8 @@
+# /etc/default/isc-dhcp-relay auf RTR-LIN (Uebung 08.1, Teil 3)
+# Zielserver: SRV-LIN-KEA. Mit Windows-Server zusaetzlich: "192.168.10.11 192.168.10.21"
+SERVERS="192.168.10.21"
+
+# Schnittstellen, auf denen Anfragen angenommen werden (umbenannte Namen aus Modul 1)
+INTERFACES="net-a net-b net-c"
+
+OPTIONS=""

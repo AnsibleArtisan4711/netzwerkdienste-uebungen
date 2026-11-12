@@ -1,0 +1,22 @@
+# Netplan fuer RTR-LIN (Uebung 01.1, Teil 1, Schritt 4)
+# MAC-Adressen durch die Werte aus Get-VMNetworkAdapter ersetzen (Kleinbuchstaben, mit Doppelpunkten).
+# Datei nach /etc/netplan/60-labor.yaml kopieren, chmod 600, dann: sudo netplan apply
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    net-a:
+      match:
+        macaddress: "00:15:5d:00:00:01"   # ersetzen: Adapter an vSwitch-Server
+      set-name: net-a
+      addresses: [192.168.10.1/24]
+    net-b:
+      match:
+        macaddress: "00:15:5d:00:00:02"   # ersetzen: Adapter an vSwitch-ClientA
+      set-name: net-b
+      addresses: [192.168.20.1/24]
+    net-c:
+      match:
+        macaddress: "00:15:5d:00:00:03"   # ersetzen: Adapter an vSwitch-ClientB
+      set-name: net-c
+      addresses: [192.168.30.1/24]

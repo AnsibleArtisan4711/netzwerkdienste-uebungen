@@ -1,0 +1,13 @@
+# Konfiguration des DHCP-Relays auf RTR-LIN (Uebung 05.1, Teil 3)
+# Ablage: /etc/default/isc-dhcp-relay   (wird von isc-dhcp-relay.service als EnvironmentFile gelesen)
+# Danach: sudo systemctl restart isc-dhcp-relay
+
+# Server, an die Anfragen weitergeleitet werden (mit Leerzeichen getrennt).
+# Modul 5: nur der Windows-Server. Modul 7 und 8 ergaenzen weitere Server.
+SERVERS="192.168.10.11"
+
+# Schnittstellen, auf denen das Relay lauscht: Client-Netze UND die Serverseite.
+INTERFACES="net-a net-b net-c"
+
+# Zusaetzliche Optionen fuer dhcrelay (leer lassen; z. B. -a haengt Option 82 an)
+OPTIONS=""

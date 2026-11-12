@@ -1,0 +1,7 @@
+# /etc/default/isc-dhcp-relay6 auf RTR-LIN (Uebung 09.1, Teil 4) - NICHT getestet
+# Die Datei wird vom Paket nicht mitgeliefert und muss angelegt werden.
+# Variablennamen gemaess Paket isc-dhcp-relay (Dienst isc-dhcp-relay6.service).
+# LOWER_INTERFACES: Seite der Clients, UPPER_INTERFACES: Seite des Servers
+LOWER_INTERFACES="net-c"
+UPPER_INTERFACES="net-a"
+OPTIONS=""

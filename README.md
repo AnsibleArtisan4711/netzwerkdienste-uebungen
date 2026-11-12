@@ -8,7 +8,7 @@ Praxisnahe Übungsreihen zu Netzwerkdiensten, jeweils mit Windows-Server und Lin
 |---|---|---|
 | [`dns-grundlagen/`](dns-grundlagen/) | DNS-Grundlagen mit Windows-DNS und BIND 9 (12 Module, 112 Übungseinheiten) | fertig |
 | `dnssec/` | DNSSEC | geplant |
-| `dhcp/` | DHCP | geplant |
+| `dhcp/` | DHCP | fertig |
 
 ## Aufbau jeder Reihe
 
